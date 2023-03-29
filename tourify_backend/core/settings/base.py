@@ -28,6 +28,7 @@ DEFAULT_APPS = [
 ]
 
 LOCAL_APPS = [
+    'aplications.authentication',
     'aplications.tour_guide',
     'aplications.tourist_spot',
     
@@ -35,6 +36,7 @@ LOCAL_APPS = [
 
 THIRD_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_APPS
@@ -117,3 +119,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = "authentication.CustomUser"
