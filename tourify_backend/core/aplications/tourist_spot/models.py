@@ -38,6 +38,11 @@ class Display (models.Model):
     id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
+class Favorite_site (models.Model):
+    date= models.DateTimeField(auto_now=True, blank=False, null= False)
+    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
+
 class Visit_site (models.Model):
     visit_number= models.Model(max_length=5, primary_key=True, null=False, unique=True)
     date_visitdate_view= models.DateTimeField(auto_now=True, blank=False, null= False)
