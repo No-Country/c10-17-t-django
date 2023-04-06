@@ -1,6 +1,9 @@
 from django.db import models
 from aplications.authentication.models import CustomUser
 
+
+
+from .managers import TourGuideManager,CertificationsManager
 STATE_GUIDE = (('1','ACTIVO'),('2','INACTIVO'),('3','BLOQUEADO'))
 
 # Create your models here.
@@ -12,6 +15,8 @@ class Guide(models.Model):
     postal_code = models.CharField(max_length=50,blank=False,null=False)
     state = models.CharField(max_length=10,choices=STATE_GUIDE,blank=False,null=False)
     id_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    
+    objects = TourGuideManager()
 
 
 class Certification(models.Model):
@@ -20,6 +25,8 @@ class Certification(models.Model):
     broadcast_date = models.DateField(null=False,blank=False)
     link = models.CharField(max_length=150,null=False,blank=False)
     dni = models.ForeignKey(Guide, on_delete=models.CASCADE)
+
+    objects = CertificationsManager()
 
 class Review_Guide(models.Model):
     calification = models.FloatField(null=False,blank=False)
