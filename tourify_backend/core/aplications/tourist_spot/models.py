@@ -35,7 +35,7 @@ class Guide_site (models.Model):
 class Display (models.Model):
     nro_view= models.Model(max_length=5, primary_key=True, null=False, unique=True)
     date_view= models.DateTimeField(auto_now=True, blank=False, null= False)
-    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Favorite_site (models.Model):
