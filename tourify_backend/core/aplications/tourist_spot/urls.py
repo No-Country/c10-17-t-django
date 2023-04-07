@@ -8,5 +8,7 @@ urlpatterns = [
     path('list-photo-site/', ShowListPhoto.as_view(), name='Photos Site'),
     path('update-site/<str:id_site>/', UpdateSite.as_view(), name='Update Site'),
     path('list-site', ShowListSite.as_view(), name='List Site'),
-    path('list-guide-site', ShowGuideSite.as_view(), name='List Guide Site')
+    path('list-guide-site', ShowGuideSite.as_view(), name='List Guide Site'),
+    path('list-favorite-site', ShowFavoriteSite.as_view(), name= 'List Favorite Site'),
+    path('list-visit-site', ShowVisitSite.as_view(), name= 'List Visit site')
 ]

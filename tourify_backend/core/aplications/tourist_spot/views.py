@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
-from .models import Site, Guide_site, Photo_site
-from .serializers import SiteSerializer, GuideSiteSerializer, PhotoSiteSerializer
+from .models import Site, Guide_site, Photo_site, Favorite_site, Visit_site, Photo_visit
+from .serializers import *
 from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -90,9 +90,31 @@ class ShowListSite(APIView):
 class ShowGuideSite(APIView):
     def get(self, request):
         id_site= self.request.query_params.get('id_site')
-        guide_site= Guide_site.objects.filter(id_site=id_site) #No mostrar aquellos Desabilitados
+        guide_site= Guide_site.objects.filter(id_site=id_site, state=not('S','Suspendido')) #No mostrar aquellos suspendidos
         list_guide= GuideSiteSerializer(guide_site, many=True)
 
         if len(list_guide.data)!=0:
             return Response(list_guide.data, status=status.HTTP_200_OK)
         return Response({"message":"No se encontraron lugares para mostrar"},status=status.HTTP_204_NO_CONTENT)
+    
+#LISTAR LUGARES FAVORITOS
+class ShowFavoriteSite(APIView):
+    def get(self,request):
+        id_user = self.request.query_params.get('id_user')
+        favorite_site= Favorite_site.objects.filter(id_user=id_user)
+        list_favorite= FavoriteSiteSerializer(favorite_site, many=True)
+
+        if len(list_favorite.data)!=0:
+            return Response(list_favorite.data, status=status.HTTP_200_OK)
+        return Response({"message":"No se encontaron lugares marcados como favoritos"})
+
+#LISTAR LUGARES VISITADOS
+class ShowVisitSite(APIView):
+    def get(self,request):
+        id_user= self.request.query_params.get('id_user')
+        visit_site= Visit_site.objects.filter(id_user=id_user)
+        list_visit= VisitSiteSerializer(visit_site, many=True)
+
+        if len(list_visit.data)!=0:
+            return Response(list_visit.data, status=status.HTTP_200_OK)
+        return Response({"message":"No se encontraron lugares visitados"})

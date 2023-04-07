@@ -33,14 +33,14 @@ class Guide_site (models.Model):
     dni= models.ForeignKey() #REQUIERE DEL MODELO GUIA
 
 class Display (models.Model):
-    nro_view= models.Model(max_length=5, primary_key=True, null=False, unique=True)
+
     date_view= models.DateTimeField(auto_now=True, blank=False, null= False)
     id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Favorite_site (models.Model):
     date= models.DateTimeField(auto_now=True, blank=False, null= False)
-    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Visit_site (models.Model):
@@ -52,7 +52,7 @@ class Visit_site (models.Model):
     meal= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
     coment= models.CharField(max_length=300, blank=True, null=True)
     recomentadion= models.CharField(max_length=100, blank=True, null=True)
-    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Photo_visit (models.Model):

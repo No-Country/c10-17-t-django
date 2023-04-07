@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Site, Photo_site, Guide_site, Display, Visit_site, Photo_visit
+from .models import Site, Photo_site, Guide_site, Display, Favorite_site, Visit_site, Photo_visit
 
 class SiteSerializer(ModelSerializer):
     
@@ -23,6 +23,12 @@ class DisplaySerializer(ModelSerializer):
     
     class Meta:
         model = Display
+        fields = '__all__'
+
+class FavoriteSiteSerializer(ModelSerializer):
+
+    class Meta:
+        model = Favorite_site
         fields = '__all__'
         
 class VisitSiteSerializer(ModelSerializer):
