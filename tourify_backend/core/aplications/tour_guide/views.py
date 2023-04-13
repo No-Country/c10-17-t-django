@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-from .models import Guide,Certification
-from .serializer import GuideSerializer,CertificationSerializer,GuideContactSerializer
+from .models import Guide,Certification,Review_Guide
+from .serializer import GuideSerializer,CertificationSerializer,GuideContactSerializer,ReviewGuideSerializer
 # Create your views here.
 
 #Crud guides
@@ -48,6 +48,10 @@ class DeleteCertification(DestroyAPIView):
     serializer_class = CertificationSerializer
     queryset = Certification.objects.get_all_certifications()
 
+#Crear Reseña del lugar turistico
+class CreateReviewGuide(CreateAPIView):
+    model = Review_Guide
+    serializer_class = ReviewGuideSerializer 
 
     
 

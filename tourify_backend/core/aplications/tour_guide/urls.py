@@ -12,4 +12,6 @@ urlpatterns = [
     path('create-certification/',CreateCertification.as_view()),
     path('update-certification/<pk>/',UpdateCertification.as_view()),
     path('delete-certification/<pk>/',DeleteCertification.as_view()),
+    #Review Guide
+    path('create-review-guide/',CreateReviewGuide.as_view()),
 ]
