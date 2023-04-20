@@ -30,21 +30,21 @@ class Guide_site (models.Model):
     description_update= models.CharField(max_length=100, blank=True, null=True)
     state= models.CharField(max_length=30, choices= STATE_GS)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
-    dni= models.ForeignKey() #REQUIERE DEL MODELO GUIA
+    dni= models.CharField(max_length=5, null=True)
 
 class Display (models.Model):
 
     date_view= models.DateTimeField(auto_now=True, blank=False, null= False)
-    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
+    id_user= models.CharField(max_length=5, null=True)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Favorite_site (models.Model):
     date= models.DateTimeField(auto_now=True, blank=False, null= False)
-    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
+    id_user= models.CharField(max_length=5, null=True)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Visit_site (models.Model):
-    visit_number= models.Model(max_length=5, primary_key=True, null=False, unique=True)
+    visit_number= models.IntegerField(primary_key=True, null=False, unique=True)
     date_visitdate_view= models.DateTimeField(auto_now=True, blank=False, null= False)
     qualification= models.CharField(max_length=10, choices=QUALIFICATION)
     trasport= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
@@ -52,7 +52,7 @@ class Visit_site (models.Model):
     meal= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
     coment= models.CharField(max_length=300, blank=True, null=True)
     recomentadion= models.CharField(max_length=100, blank=True, null=True)
-    id_user= models.ForeignKey() #REQUIERE DEL MODELO USUARIO
+    id_user= models.CharField(max_length=5, null=True)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
 class Photo_visit (models.Model):

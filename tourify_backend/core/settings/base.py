@@ -28,6 +28,7 @@ DEFAULT_APPS = [
 ]
 
 LOCAL_APPS = [
+
     'aplications.tour_guide',
     'aplications.tourist_spot',
     
