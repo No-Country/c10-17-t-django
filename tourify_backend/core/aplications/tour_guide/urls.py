@@ -22,5 +22,7 @@ urlpatterns = [
     path('report-user/',ReportUserView.as_view()),
     #Create Visite Site
     path('create-visit-site/',CreateVisiteSite.as_view()),
+    #Create Guide Site
+    path('create-guide-site/',CreateGuideSite.as_view()),
 
 ]

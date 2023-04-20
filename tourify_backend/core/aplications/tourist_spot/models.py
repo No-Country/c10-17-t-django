@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from aplications.authentication.models import CustomUser
+from aplications.tour_guide.models import Guide
 
 # Create your models here.
 STATE_GS = (('A','Activo'),('I','Inactivo'),('S','Suspendido'))
@@ -31,7 +32,7 @@ class Guide_site(models.Model):
     description_update= models.CharField(max_length=100, blank=True, null=True)
     state= models.CharField(max_length=30, choices= STATE_GS)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
-    dni= models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    dni= models.ForeignKey(Guide,on_delete=models.CASCADE)
 
 class Display(models.Model):
     nro_view= models.CharField(max_length=5, primary_key=True, null=False, unique=True)

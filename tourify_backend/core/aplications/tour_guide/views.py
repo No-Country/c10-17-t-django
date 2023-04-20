@@ -7,8 +7,8 @@ from rest_framework import status
 from .models import Guide,Certification,Review_Guide,Report
 from .serializer import GuideSerializer,CertificationSerializer,GuideContactSerializer,ReviewGuideSerializer,SavedFavoriteSiteSerializer,ReportSerializer
 
-from aplications.tourist_spot.models import Visit_site,Favorite_site
-from aplications.tourist_spot.serializers import VisitSiteSerializer
+from aplications.tourist_spot.models import Visit_site,Favorite_site,Guide_site
+from aplications.tourist_spot.serializers import VisitSiteSerializer,GuideSiteSerializer
 from aplications.authentication.models import CustomUser
 
 # Create your views here.
@@ -92,3 +92,8 @@ class ReportUserView(CreateAPIView):
 class CreateVisiteSite(CreateAPIView):
     model = Visit_site
     serializer_class = VisitSiteSerializer
+
+#Postular para guia turistico
+class CreateGuideSite(CreateAPIView):
+    model = Guide_site
+    serializer_class = GuideSiteSerializer
