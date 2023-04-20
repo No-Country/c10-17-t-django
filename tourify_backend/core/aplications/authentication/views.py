@@ -1,11 +1,13 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import UserSerializer, RegisterSerializer
 from .messages.responses_ok import LOGIN_OK, SIGNUP_OK
 from .messages.responses_error import LOGIN_CREDENTIALS_REQUIRED_ERROR, LOGIN_CREDENTIALS_ERROR
+from .models import CustomUser
+from rest_framework.authtoken.models import Token
 
 # Create your views here.
 class LoginView(generics.GenericAPIView):
@@ -20,12 +22,29 @@ class LoginView(generics.GenericAPIView):
         if email is None or password is None:
             return Response(LOGIN_CREDENTIALS_REQUIRED_ERROR, status=status.HTTP_400_BAD_REQUEST)
         else:
+            
             user = authenticate(email = email, password = password)
+            
             if user is not None:
-                return Response( {
-                "user": UserSerializer(user, context = self.get_serializer_context()).data,
-                "message": LOGIN_OK
-            }, status=status.HTTP_200_OK)
+
+                token , create = Token.objects.get_or_create(user = user)
+                
+                if create:
+                        return Response( {
+                        "user": UserSerializer(user, context = self.get_serializer_context()).data,
+                        'token': token.key,
+                        "message": LOGIN_OK,
+                        }, status=status.HTTP_200_OK)
+                else:
+                    token.delete()
+                    token = Token.objects.create(user=user)
+                    return Response( {
+                    "user": UserSerializer(user, context = self.get_serializer_context()).data,
+                    'token': token.key,
+                    "message": LOGIN_OK,
+                    }, status=status.HTTP_200_OK)
+                
+               
             else:
                 return Response(LOGIN_CREDENTIALS_ERROR, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -42,3 +61,17 @@ class SignUpView(generics.GenericAPIView):
                 "message": SIGNUP_OK
             },
         )
+class LogoutView(APIView):
+    
+    def post(self, request):
+        email = request.data['email']
+        try:
+            user = CustomUser.objects.get(email = email)
+            token = Token.objects.get(user = user)
+            token.delete()
+            data = {'code': 200, 'msg': 'Sesión cerrada'}
+            code = status.HTTP_200_OK
+        except:
+            data = {'code': 401, 'msg': 'Credenciales incorrectas'}
+            code = status.HTTP_401_UNAUTHORIZED
+        return Response(data, status = code)
