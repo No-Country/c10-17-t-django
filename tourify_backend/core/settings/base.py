@@ -31,6 +31,7 @@ LOCAL_APPS = [
     'aplications.authentication',
     'aplications.tour_guide',
     'aplications.tourist_spot',
+    'aplications.user_tour',
     
 ]
 

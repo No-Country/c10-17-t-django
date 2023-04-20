@@ -3,7 +3,7 @@ from aplications.authentication.models import CustomUser
 
 
 
-from .managers import TourGuideManager,CertificationsManager
+from .managers import TourGuideManager,CertificationsManager,ReviewsGuideManager
 STATE_GUIDE = (('1','ACTIVO'),('2','INACTIVO'),('3','BLOQUEADO'))
 
 # Create your models here.
@@ -33,3 +33,10 @@ class Review_Guide(models.Model):
     comment = models.TextField(null=False,blank=False)
     id_user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     dni = models.ForeignKey(Guide, on_delete=models.CASCADE)
+
+    objects = ReviewsGuideManager()
+    
+class Report(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reports')
+    reason = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)

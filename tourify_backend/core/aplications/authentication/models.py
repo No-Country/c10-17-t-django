@@ -21,3 +21,11 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.get_full_name()}"
+
+class FollowUp(models.Model):
+    id_folowing = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='following_set')
+    id_folower = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='follower_set')
+    from_day = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('id_folowing', 'id_folower')

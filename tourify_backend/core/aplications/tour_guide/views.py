@@ -4,8 +4,13 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-from .models import Guide,Certification,Review_Guide
-from .serializer import GuideSerializer,CertificationSerializer,GuideContactSerializer,ReviewGuideSerializer
+from .models import Guide,Certification,Review_Guide,Report
+from .serializer import GuideSerializer,CertificationSerializer,GuideContactSerializer,ReviewGuideSerializer,SavedFavoriteSiteSerializer,ReportSerializer
+
+from aplications.tourist_spot.models import Visit_site,Favorite_site
+from aplications.tourist_spot.serializers import VisitSiteSerializer
+from aplications.authentication.models import CustomUser
+
 # Create your views here.
 
 #Crud guides
@@ -53,5 +58,37 @@ class CreateReviewGuide(CreateAPIView):
     model = Review_Guide
     serializer_class = ReviewGuideSerializer 
 
-    
+#Ver reseñas del guia turistico
+class ShowReviewGuide(APIView):
+    serializer_class = ReviewGuideSerializer
 
+    def get(self,request):
+        user_guide = self.request.query_params.get('id_user',None)
+        if user_guide != None:
+            try:
+                reviews = Review_Guide.objects.get_all_reviews(user_guide)
+                serializer_info = ReviewGuideSerializer(reviews, many=True)
+                if serializer_info.is_valid:
+                    return Response(serializer_info.data,status=status.HTTP_200_OK)
+            except Exception as ex:
+                print(ex)
+                rspn = {
+                        "message": "Guide Not Found"
+                    }    
+                return Response(rspn,status=status.HTTP_404_NOT_FOUND)
+        
+
+#Guardar Publicacion
+class SavedPostView(CreateAPIView):
+    model = Favorite_site
+    serializer_class = SavedFavoriteSiteSerializer
+
+#Report User
+class ReportUserView(CreateAPIView):
+    model = Report
+    serializer_class = ReportSerializer
+
+#Crear Reseña lugar turistico
+class CreateVisiteSite(CreateAPIView):
+    model = Visit_site
+    serializer_class = VisitSiteSerializer

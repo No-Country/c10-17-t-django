@@ -14,4 +14,13 @@ urlpatterns = [
     path('delete-certification/<pk>/',DeleteCertification.as_view()),
     #Review Guide
     path('create-review-guide/',CreateReviewGuide.as_view()),
+    #Show All Review Guide
+    path('show-all-review-guide/',ShowReviewGuide.as_view()),
+    #Save Visite Site
+    path('save-visite-site/',SavedPostView.as_view()),
+    #Report user
+    path('report-user/',ReportUserView.as_view()),
+    #Create Visite Site
+    path('create-visit-site/',CreateVisiteSite.as_view()),
+
 ]

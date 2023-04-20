@@ -16,3 +16,9 @@ class CertificationsManager(models.Manager):
 
     def get_all_certifications(self):
         return self.all()
+    
+class ReviewsGuideManager(models.Manager):
+    def get_all_reviews(self,user_guide):
+        return self.filter(
+            dni=user_guide
+        )
