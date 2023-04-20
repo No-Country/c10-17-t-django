@@ -1,11 +1,13 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from aplications.authentication.models import CustomUser
+from aplications.tour_guide.models import Guide
 
 # Create your models here.
 STATE_GS = (('A','Activo'),('I','Inactivo'),('S','Suspendido'))
 QUALIFICATION = (('M','Malo'),('R','Regular'),('B','Bueno'),('MB','Muy bueno'),('E','Excelente'))
 
-class Site (models.Model):
+class Site(models.Model):
     id_site= models.CharField(max_length=5, primary_key=True, null=False, unique=True)
     name= models.CharField(max_length=50, blank=False, null=False)
     description= models.CharField(max_length=300 ,blank=False, null=False)
@@ -17,29 +19,34 @@ class Site (models.Model):
     budget= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
     validation= models.BooleanField(default=False)
 
-class Photo_site (models.Model):
+class Photo_site(models.Model):
     name= models.CharField(max_length=50, blank=False, null=False)
     description= models.CharField(max_length=100, blank=False, null=False)
     upload_date = models.DateTimeField(auto_now=True,blank=False, null=False)
     link = models.CharField(max_length=100, blank=False, null=False)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
-class Guide_site (models.Model):
+class Guide_site(models.Model):
     date_register= models.DateTimeField(auto_now=True, blank=False, null=False)
     date_update_site= models.DateTimeField(blank=True, null= True)
     description_update= models.CharField(max_length=100, blank=True, null=True)
     state= models.CharField(max_length=30, choices= STATE_GS)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
-    dni= models.ForeignKey() #REQUIERE DEL MODELO GUIA
+    dni= models.ForeignKey(Guide,on_delete=models.CASCADE)
 
-class Display (models.Model):
-    nro_view= models.Model(max_length=5, primary_key=True, null=False, unique=True)
+class Display(models.Model):
+    nro_view= models.CharField(max_length=5, primary_key=True, null=False, unique=True)
     date_view= models.DateTimeField(auto_now=True, blank=False, null= False)
-    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_user= models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
-class Visit_site (models.Model):
-    visit_number= models.Model(max_length=5, primary_key=True, null=False, unique=True)
+class Favorite_site (models.Model):
+    date= models.DateTimeField(auto_now=True, blank=False, null= False)
+    id_user= models.ForeignKey(CustomUser,on_delete=models.CASCADE) 
+    id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
+
+class Visit_site(models.Model):
+    visit_number= models.CharField(max_length=5, primary_key=True, null=False, unique=True)
     date_visitdate_view= models.DateTimeField(auto_now=True, blank=False, null= False)
     qualification= models.CharField(max_length=10, choices=QUALIFICATION)
     trasport= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
@@ -47,10 +54,10 @@ class Visit_site (models.Model):
     meal= models.FloatField(validators=[MinValueValidator(0)] , blank=False, null=False)
     coment= models.CharField(max_length=300, blank=True, null=True)
     recomentadion= models.CharField(max_length=100, blank=True, null=True)
-    id_user= models.ForeignKey() #REUIERE DEL MODELO USUARIO
+    id_user= models.ForeignKey(CustomUser,on_delete=models.CASCADE) 
     id_site= models.ForeignKey(Site, on_delete=models.CASCADE)
 
-class Photo_visit (models.Model):
+class Photo_visit(models.Model):
     name= models.CharField(max_length=50, blank=False, null=False)
     link= models.CharField(max_length=100, blank=False, null=False)
     visit_number= models.ForeignKey(Visit_site, on_delete=models.CASCADE)
